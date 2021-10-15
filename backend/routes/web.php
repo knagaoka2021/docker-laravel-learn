@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    logger('welcome route.');
-    return view('welcome');
-});
+// ログイン画面表示
+Route::get('/', [AuthController::class,
+    'showLogin'])->name('showLogin');
+
+// ログイン処理
+Route::post('/login',[AuthController::class,
+    'login'])->name('login');

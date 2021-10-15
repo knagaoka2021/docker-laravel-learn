@@ -12,6 +12,10 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/* && \
   docker-php-ext-install intl pdo_mysql zip bcmath
 
+# Install Nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+  && apt install -y nodejs
+
 COPY ./php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /work
