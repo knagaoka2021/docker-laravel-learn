@@ -14,10 +14,28 @@ use App\Http\Controllers\Auth\AuthController;
 |
 */
 
-// ログイン画面表示
-Route::get('/', [AuthController::class,
-    'showLogin'])->name('showLogin');
+// ログイン前のみ可
+Route::middleware(['guest'])->group(function () {
+    // ログイン画面表示
+    Route::get('/', [
+        AuthController::class,
+        'showLogin'
+    ])->name('showLogin');
 
-// ログイン処理
-Route::post('/login',[AuthController::class,
-    'login'])->name('login');
+    // ログイン処理
+    Route::post('login', [
+        AuthController::class,
+        'login'
+    ])->name('login');
+});
+
+// ログイン後のみ可
+Route::middleware(['auth'])->group(function () {
+    // ホーム画面
+    Route::get('home', function () {
+        return view('home');
+    })->name('home');
+    // ログアウト
+    Route::post('logout',[AuthController::class,'logout'])
+    ->name('logout');
+});
